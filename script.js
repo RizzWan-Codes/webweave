@@ -277,3 +277,5 @@ window.addEventListener('scroll', () => {
         heroContent.style.opacity = 1 - scrolled / (window.innerHeight * 0.8);
     }
 });
+
+document.getElementById("year").textContent = new Date().getFullYear();
