@@ -7,16 +7,16 @@
         }
 
         :root {
-            --primary: #6C3CE1;
-            --primary-light: #8B5CF6;
-            --accent: #00F5D4;
+            --primary: #ec008c;
+            --primary-light: #ec5fb4;
+            --accent: #fc6767;
             --dark: #0A0A0F;
             --dark-light: #12121A;
             --gray: #9CA3AF;
             --gray-dark: #6B7280;
             --light: #F1F5F9;
             --white: #FFFFFF;
-            --gradient: linear-gradient(135deg, #6C3CE1, #00F5D4);
+            --gradient: linear-gradient(135deg, #00f5a0, #00d9f5);
         }
 
         html {
@@ -158,7 +158,8 @@
             color: var(--white);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0px;
+            
         }
 
         .logo-icon {
@@ -171,6 +172,7 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
+            margin-right: 10px;
         }
 
         .logo-icon svg {
