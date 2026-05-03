@@ -66,57 +66,78 @@
             transform: translate(-50%, -50%);
         }
 
-        /* Preloader */
-        .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--dark);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0A0A0F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    overflow: hidden;
+}
 
-        .preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
+.loader-content {
+    text-align: center;
+}
 
-        .preloader-text {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+.loader-logo {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #6C3CE1, #00F5D4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glow 2s ease-in-out infinite alternate;
+}
 
-        .preloader-bar {
-            width: 200px;
-            height: 3px;
-            background: rgba(255,255,255,0.1);
-            margin-top: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+.loader-logo span {
+    color: white;
+    -webkit-text-fill-color: white;
+}
 
-        .preloader-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--gradient);
-            border-radius: 10px;
-            animation: loadBar 2s ease forwards;
-        }
+.loader-line {
+    width: 200px;
+    height: 2px;
+    margin: 20px auto;
+    background: linear-gradient(90deg, transparent, #00F5D4, transparent);
+    position: relative;
+    overflow: hidden;
+}
+
+.loader-line::after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 100%;
+    background: #6C3CE1;
+    animation: slide 1.5s infinite;
+}
+
+.loader-tag {
+    font-size: 0.9rem;
+    color: #888;
+    letter-spacing: 1px;
+}
+
+@keyframes slide {
+    0% { left: -50px; }
+    100% { left: 100%; }
+}
+
+@keyframes glow {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
+}
 
         @keyframes loadBar {
             to { width: 100%; }
         }
+
+        
 
         /* Weave Canvas Background */
         #weaveCanvas {
@@ -2133,4 +2154,88 @@
     .pricing-card.featured:hover {
         transform: translateY(-10px);
     }
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.team-card {
+    background: #111;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    transition: 0.3s;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.team-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(0,245,212,0.3);
+}
+
+.team-avatar {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #6C3CE1, #00F5D4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #000;
+}
+
+.team-role {
+    display: block;
+    margin-bottom: 10px;
+    color: #00F5D4;
+    font-size: 0.9rem;
+}
+
+.team-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 2px solid rgba(0,245,212,0.4);
+    transition: 0.3s;
+}
+
+.team-card:hover .team-img {
+    transform: scale(1.05);
+    border-color: #00F5D4;
+}
+
+.build-grid,
+.spec-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.build-card,
+.spec-card {
+    background: #111;
+    padding: 25px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s;
+}
+.build-card:hover,
+.spec-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(0,245,212,0.3);
+}
+
+.build-icon,
+.spec-icon {
+    font-size: 26px;
+    margin-bottom: 10px;
 }
