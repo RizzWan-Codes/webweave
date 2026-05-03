@@ -1,9 +1,16 @@
-// Preloader
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').classList.add('hidden');
-            }, 2200);
-        });
+window.addEventListener("load", () => {
+    const preloader = document.getElementById("preloader");
+
+    setTimeout(() => {
+        preloader.style.opacity = "0";
+        preloader.style.pointerEvents = "none";
+        preloader.style.transition = "opacity 0.5s ease";
+
+        setTimeout(() => {
+            preloader.style.display = "none";
+        }, 500);
+    }, 1500);
+});
 
         // Custom Cursor
         const cursor = document.getElementById('cursor');
@@ -279,3 +286,4 @@ window.addEventListener('scroll', () => {
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();
+
