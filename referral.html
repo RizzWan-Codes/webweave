@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Program — WebWeave</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --accent: #00f5d4;
+            --accent-dim: rgba(0, 245, 212, 0.08);
+            --accent-border: rgba(0, 245, 212, 0.2);
+            --bg: #080a0e;
+            --bg2: #0d1017;
+            --bg3: #111620;
+            --text: #e8eaf0;
+            --muted: #7a8499;
+            --border: rgba(255,255,255,0.06);
+            --green: rgba(0, 200, 120, 0.08);
+            --green-border: rgba(0, 200, 120, 0.2);
+            --green-text: #34d399;
+            --yellow: rgba(255, 190, 80, 0.05);
+            --yellow-border: rgba(255, 190, 80, 0.2);
+            --red: rgba(255, 80, 80, 0.08);
+            --red-border: rgba(255, 80, 80, 0.2);
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; font-size: 16px; }
+
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(8, 10, 14, 0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 0 40px;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+        .nav-logo { font-size: 20px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.3px; }
+        .nav-logo span { color: var(--accent); }
+        .nav-back { display: flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav-back:hover { color: var(--accent); }
+        .nav-back svg { width: 16px; height: 16px; }
+
+        .hero { padding: 80px 40px 60px; max-width: 900px; margin: 0 auto; position: relative; }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 600px; height: 300px;
+            background: radial-gradient(ellipse at center, rgba(0,245,212,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .page-tag {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--accent); background: var(--accent-dim); border: 1px solid var(--accent-border);
+            padding: 6px 14px; border-radius: 20px; margin-bottom: 28px;
+        }
+        .page-tag svg { width: 13px; height: 13px; }
+        h1 { font-size: clamp(36px, 5vw, 54px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; }
+        h1 span { color: var(--accent); }
+        .hero-sub { font-size: 16px; color: var(--muted); max-width: 520px; line-height: 1.8; }
+        .hero-divider { width: 100%; height: 1px; background: linear-gradient(90deg, var(--accent) 0%, transparent 60%); margin-top: 40px; opacity: 0.3; }
+
+        /* Big Offer Card */
+        .offer-card {
+            max-width: 900px; margin: -20px auto 0; padding: 0 40px;
+        }
+        .offer-inner {
+            background: linear-gradient(135deg, rgba(0,245,212,0.06), rgba(0,200,120,0.04));
+            border: 1px solid var(--accent-border); border-radius: 20px;
+            padding: 48px; text-align: center; position: relative; overflow: hidden;
+        }
+        .offer-inner::before {
+            content: ''; position: absolute; top: -80px; right: -80px;
+            width: 250px; height: 250px;
+            background: radial-gradient(circle, rgba(0,245,212,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .offer-pct { font-size: clamp(56px, 8vw, 80px); font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 12px; letter-spacing: -3px; }
+        .offer-label { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+        .offer-desc { font-size: 15px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+        .layout { max-width: 900px; margin: 0 auto; padding: 60px 40px 100px; display: grid; grid-template-columns: 220px 1fr; gap: 60px; align-items: start; }
+        .toc { position: sticky; top: 84px; }
+        .toc-title { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+        .toc-list { list-style: none; }
+        .toc-list li { margin-bottom: 4px; }
+        .toc-list a { display: block; font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; border-left: 2px solid transparent; transition: all 0.2s; line-height: 1.4; }
+        .toc-list a:hover { color: var(--accent); background: var(--accent-dim); border-left-color: var(--accent); }
+        .content { min-width: 0; }
+        .section { margin-bottom: 56px; scroll-margin-top: 90px; }
+        .section-num { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; display: block; }
+        h2 { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 20px; letter-spacing: -0.3px; }
+        p { color: #a8b2c4; font-size: 15px; line-height: 1.8; margin-bottom: 14px; }
+
+        .rule-card {
+            background: var(--bg3); border: 1px solid var(--border); border-radius: 14px;
+            padding: 24px 28px; margin-bottom: 16px; transition: border-color 0.3s;
+        }
+        .rule-card:hover { border-color: rgba(0,245,212,0.15); }
+        .rule-card h3 {
+            font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 10px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .rule-card h3 .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+        .rule-card h3 .num { font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-dim); padding: 2px 8px; border-radius: 6px; letter-spacing: 1px; }
+        .rule-card p { margin-bottom: 0; font-size: 14px; }
+
+        .highlight-box {
+            background: var(--accent-dim); border: 1px solid var(--accent-border);
+            border-radius: 12px; padding: 20px 24px; margin-bottom: 16px;
+        }
+        .highlight-box p { color: #b8f0e8; font-size: 14px; margin-bottom: 0; }
+
+        .warning-box {
+            background: var(--yellow); border: 1px solid var(--yellow-border);
+            border-radius: 12px; padding: 18px 24px; margin-bottom: 16px;
+            display: flex; gap: 14px; align-items: flex-start;
+        }
+        .warning-box svg { width: 18px; height: 18px; color: #ffbe50; flex-shrink: 0; margin-top: 2px; }
+        .warning-box p { color: #d4a843; font-size: 14px; margin-bottom: 0; }
+
+        .no-list {
+            background: var(--red); border: 1px solid var(--red-border);
+            border-radius: 14px; padding: 24px 28px; margin: 16px 0;
+        }
+        .no-list h3 { font-size: 15px; font-weight: 600; color: #ff7070; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .no-list ul { list-style: none; }
+        .no-list ul li { font-size: 14px; color: #c97070; padding: 8px 0; border-bottom: 1px solid rgba(255,80,80,0.1); display: flex; align-items: flex-start; gap: 10px; }
+        .no-list ul li:last-child { border-bottom: none; }
+        .no-list ul li::before { content: '\00d7'; color: #ff7070; font-weight: 700; font-size: 16px; line-height: 1.4; flex-shrink: 0; }
+
+        .section-sep { height: 1px; background: var(--border); margin-bottom: 56px; }
+
+        .footer-note {
+            background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+            padding: 32px; text-align: center; margin-top: 20px;
+        }
+        .footer-note p { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+        .footer-note a { color: var(--accent); text-decoration: none; }
+        .footer-note a:hover { text-decoration: underline; }
+
+        /* How it works */
+        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0; }
+        .step-card {
+            background: var(--bg3); border: 1px solid var(--border); border-radius: 14px;
+            padding: 24px 20px; text-align: center;
+        }
+        .step-num { font-size: 28px; font-weight: 800; color: var(--accent); display: block; margin-bottom: 8px; }
+        .step-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+        .step-card p { font-size: 13px; color: var(--muted); margin-bottom: 0; }
+
+        @media (max-width: 768px) {
+            nav { padding: 0 20px; }
+            .hero { padding: 60px 20px 40px; }
+            .offer-card { padding: 0 20px; }
+            .offer-inner { padding: 36px 24px; }
+            .layout { grid-template-columns: 1fr; padding: 40px 20px 80px; gap: 40px; }
+            .toc { display: none; }
+            .steps-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-logo"><span>W</span>eb<span>W</span>eave</a>
+    <a href="index.html" class="nav-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back to Home
+    </a>
+</nav>
+
+<div class="hero">
+    <div class="page-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        Referral Program
+    </div>
+    <h1>We Reward People<br>Who Help Us <span>Grow</span></h1>
+    <p class="hero-sub">
+        Refer a client to WebWeave and earn a percentage of the deal. Simple, transparent, and built to reward genuine connections.
+    </p>
+    <div class="hero-divider"></div>
+</div>
+
+<div class="offer-card">
+    <div class="offer-inner">
+        <div class="offer-pct">10%</div>
+        <div class="offer-label">Of the Final Deal Value</div>
+        <p class="offer-desc">Refer a client to WebWeave and earn 10% of the final deal value when the project is successfully closed and fully paid.</p>
+    </div>
+</div>
+
+<div class="layout">
+    <aside class="toc">
+        <p class="toc-title">On this page</p>
+        <ul class="toc-list">
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="#valid">1. Valid Referral</a></li>
+            <li><a href="#payment">2. When You Get Paid</a></li>
+            <li><a href="#percentage">3. Payment Clarity</a></li>
+            <li><a href="#cancelled">4. Cancelled Deals</a></li>
+            <li><a href="#first">5. One Referrer Rule</a></li>
+            <li><a href="#self">6. Self-Referral Ban</a></li>
+            <li><a href="#genuine">7. Genuine Introductions</a></li>
+            <li><a href="#timeline">8. Payment Timeline</a></li>
+            <li><a href="#negotiation">9. Negotiation Control</a></li>
+            <li><a href="#abuse">10. Abuse Protection</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <div class="section" id="how">
+            <span class="section-num">How It Works</span>
+            <h2>Three Simple Steps</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <span class="step-num">01</span>
+                    <h4>Introduce</h4>
+                    <p>Connect us with someone who needs a website, platform, or digital system.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">02</span>
+                    <h4>We Close</h4>
+                    <p>We handle all discussions, pricing, and project execution from start to finish.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">03</span>
+                    <h4>Get Paid</h4>
+                    <p>Once the client completes full payment, you receive 10% within 7–14 days.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <div class="section" id="valid">
+            <span class="section-num">01 — Valid Referral Definition</span>
+            <h2>What Counts as a Valid Referral</h2>
+            <div class="rule-card">
+                <h3><span class="dot"></span>New Client Only</h3>
+                <p>A referral is considered valid only if the referred client is new and has not previously contacted or interacted with WebWeave. You cannot claim someone who already reached out to us independently.</p>
+            </div>
+            <div class="highlight-box">
+                <p>The referrer must be the first and primary point of introduction. If the client was already in our pipeline, the referral doesn't count.</p>
+            </div>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <div class="section" id="payment">
+            <span class="section-num">02 — When You Get Paid</span>
+            <h2>Payout Trigger</h2>
+            <p>This is where most referral programs create confusion. Ours doesn't.</p>
+            <div class="rule-card">
+                <h3><span class="dot"></span>Full Payment Required</h3>
+                <p>Referral payouts are processed only after the client has completed full payment for the project. Not after the advance. Not after "deal confirmed." Full payment — always.</p>
+            </div>
+            <div class="warning-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p>Partial payments, advances, or verbal confirmations do not trigger referral payouts. The full project cost must be received first.</p>
+            </div>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <div class="section" id="percentage">
+            <span class="section-num">03 — Payment Percentage</span>
+            <h2>How the 10% Is Calculated</h2>
+            <div class="rule-card">
+                <h3><span class="dot"></span>Net Project Value</h3>
+                <p>The 10% referral reward is calculated on the final agreed project value, excluding taxes or third-party costs (domains, hosting, APIs, subscriptions, etc.).</p>
+            </div>
+            <p style="font-size: 13px; color: var(--muted);">This prevents confusion, overpayment, and unnecessary arguments. Clean math, clean payouts.</p>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <div class="section" id="cancelled">
+            <span class="section-num">04 — Cancelled / Partial Deals</span>
+            <h2>What Happens If a Deal Falls Through</h2>
+            <div class="no-list">
+                <h3>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                    No referral reward will be provided if:
+                </h3>
+                <ul>
+                    <li>The client cancels the project before completion</li>
+                    <li>The client requests a full or partial refund</li>
+                    <li>The client fails to complete payment</li>
+                    <li>The deal does not result in a signed project</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <div class="section" id="first">
+            <span class="section-num">05 — One Referrer Rule</span>
+            <h2>First Come, First Paid</h2>
+            <div class="rule-card">
+                <h3><span class="dot"></span>Single Referrer per Client</h3>
+                <p>If multiple individuals refer the same client, the reward will be granted to the person who first introduced the client. First come, first paid. No drama, no splits.</p>
+            </div>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <div class="section" id="self">
+            <span class="section-num">06 — Self-Referral Ban</span>
+            <h2>Don't Even Try It</h2>
+            <div class="rule-card">
+                <h3><span class="dot"></span>No Self-Referrals</h3>
+                <p>Self-referrals or referrals made under fake identities, aliases, or secondary accounts will not be eligible for rewards. This includes referring yourself through someone else.</p>
+            </div>
+            <div class="warning-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p>Any attempt to game the system through fake identities or circular referrals will result in immediate disqualification and potential blacklisting.</p>
+            </div>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <div class="section" id="genuine">
+            <span class="section-num">07 — Active Involvement</span>
+            <h2>Genuine Introductions Only</h2>
+            <div class="rule-card">
+                <h3><span class="dot"></span>Quality Over Quantity</h3>
+                <p>Referrers are expected to make a genuine introduction — providing context about the client's needs, making a warm connection, and ensuring the lead is real. Simply sharing contact details without context may not qualify.</p>
+            </div>
+            <p style="font-size: 13px; color: var(--muted);">This filters spam referrals and useless leads. We value quality connections, not bulk name-drops.</p>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <div class="section" id="timeline">
+            <span class="section-num">08 — Payment Timeline</span>
+            <h2>When You'll Receive Your Payout</h2>
+            <div class="rule-card">
+                <h3><span class="dot"></span>7–14 Business Days</h3>
+                <p>Referral payouts will be processed within 7–14 business days after full client payment is received. Payment will be made via UPI, bank transfer, or any mutually agreed method.</p>
+            </div>
+            <div class="highlight-box">
+                <p>You'll be notified when the client completes payment and when your payout is being processed. Full transparency — no guessing games.</p>
+            </div>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <div class="section" id="negotiation">
+            <span class="section-num">09 — Negotiation Control</span>
+            <h2>We Handle Pricing. Period.</h2>
+            <div class="rule-card">
+                <h3><span class="dot"></span>No Price Promises</h3>
+                <p>All pricing, negotiations, and final deal terms are handled solely by WebWeave. Referrers must not quote prices, promise discounts, or negotiate on our behalf. If a referrer makes unauthorized commitments, WebWeave is not bound by them.</p>
+            </div>
+            <div class="warning-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p>Never tell a potential client "I'll get you a deal for ₹15K" — you don't set our prices. Introduce the client, and we take it from there.</p>
+            </div>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <div class="section" id="abuse">
+            <span class="section-num">10 — Abuse Protection</span>
+            <h2>We Decide. Always.</h2>
+            <div class="rule-card">
+                <h3><span class="dot"></span>Right to Reject</h3>
+                <p>WebWeave reserves the right to reject or cancel referral rewards in cases of misuse, spam, unethical behavior, or any activity that violates the spirit of this program. Our decision on referral eligibility is final.</p>
+            </div>
+            <p style="font-size: 13px; color: var(--muted);">This clause exists to protect both us and legitimate referrers. Play fair, and you'll always be rewarded fairly.</p>
+        </div>
+
+        <div class="footer-note">
+            <p>Have questions about the referral program? Reach out — we're always happy to clarify.</p>
+            <p><a href="mailto:webweave.team@gmail.com">webweave.team@gmail.com</a> &nbsp;·&nbsp; <a href="terms.html">View Terms &amp; Conditions →</a></p>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>
