@@ -1,271 +1,677 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduTrack — Case Study | WebWeave</title>
-    <meta name="description" content="How WebWeave built EduTrack — a full-blown tuition management system with attendance, report cards, fees management, and multi-role dashboards.">
+    <meta name="description"
+        content="How WebWeave built EduTrack — a full-blown tuition management system with attendance, report cards, fees management, and multi-role dashboards.">
     <link rel="icon" type="image/jpeg" href="../logo.jpeg">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --primary: #ec008c; --primary-light: #ec5fb4; --accent: #fc6767;
-            --dark: #0A0A0F; --dark-light: #12121A;
-            --gray: #9CA3AF; --gray-dark: #6B7280;
-            --light: #F1F5F9; --white: #FFFFFF;
+            --primary: #ec008c;
+            --primary-light: #ec5fb4;
+            --accent: #fc6767;
+            --dark: #0A0A0F;
+            --dark-light: #12121A;
+            --gray: #9CA3AF;
+            --gray-dark: #6B7280;
+            --light: #F1F5F9;
+            --white: #FFFFFF;
             --gradient: linear-gradient(135deg, #00f5a0, #00d9f5);
             --edu-gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
         }
-        html { scroll-behavior: smooth; }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--dark); color: var(--white);
-            overflow-x: hidden; line-height: 1.6;
+            background: var(--dark);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
-        h1,h2,h3,h4,h5,h6 { font-family: 'Outfit', sans-serif; }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Outfit', sans-serif;
+        }
 
         .back-nav {
-            position: fixed; top: 0; left: 0; width: 100%; padding: 20px 60px;
-            display: flex; align-items: center; justify-content: space-between;
-            z-index: 1000; background: rgba(10,10,15,0.85);
-            backdrop-filter: blur(20px); border-bottom: 1px solid rgba(108,60,225,0.15);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(108, 60, 225, 0.15);
         }
+
         .back-link {
-            display: inline-flex; align-items: center; gap: 10px;
-            color: var(--gray); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
             transition: color 0.3s;
         }
-        .back-link:hover { color: var(--white); }
-        .back-link svg { width: 18px; height: 18px; }
+
+        .back-link:hover {
+            color: var(--white);
+        }
+
+        .back-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
         .back-nav .logo {
-            font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700;
-            text-decoration: none; color: var(--white); display: flex; align-items: center; gap: 0;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 0;
         }
+
         .back-nav .logo span {
-            background: var(--gradient); -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; background-clip: text;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .logo-icon { width: 34px; height: 32px; border-radius: 8px; overflow: hidden; margin-right: 10px; }
-        .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+        .logo-icon {
+            width: 34px;
+            height: 32px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
 
         .project-hero {
-            min-height: 90vh; display: flex; align-items: center; justify-content: center;
-            padding: 140px 60px 80px; position: relative; overflow: hidden;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 140px 60px 80px;
+            position: relative;
+            overflow: hidden;
         }
+
         .project-hero::before {
-            content: ''; position: absolute; top: -50%; right: -20%;
-            width: 800px; height: 800px;
-            background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
             pointer-events: none;
         }
+
         .project-hero::after {
-            content: ''; position: absolute; bottom: -30%; left: -10%;
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%);
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
             pointer-events: none;
         }
+
         .hero-inner {
-            max-width: 1200px; width: 100%;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
-            position: relative; z-index: 2;
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
         }
+
         .hero-text .project-tag {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 8px 20px; background: rgba(99,102,241,0.12);
-            border: 1px solid rgba(99,102,241,0.3); border-radius: 50px;
-            font-size: 0.8rem; color: #a5b4fc; margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #a5b4fc;
+            margin-bottom: 20px;
             animation: fadeInUp 0.8s ease both;
         }
+
         .hero-text h1 {
-            font-size: 3.5rem; font-weight: 800; line-height: 1.1;
-            margin-bottom: 20px; letter-spacing: -0.02em;
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
             animation: fadeInUp 0.8s ease 0.15s both;
         }
+
         .hero-text h1 .highlight {
             background: var(--edu-gradient);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
+
         .hero-text .tagline {
-            font-size: 1.15rem; color: var(--gray); line-height: 1.8; margin-bottom: 30px;
+            font-size: 1.15rem;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 30px;
             animation: fadeInUp 0.8s ease 0.3s both;
         }
+
         .hero-meta {
-            display: flex; gap: 30px; flex-wrap: wrap;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
             animation: fadeInUp 0.8s ease 0.45s both;
         }
-        .meta-item { display: flex; flex-direction: column; gap: 4px; }
-        .meta-label { font-size: 0.7rem; color: var(--gray-dark); text-transform: uppercase; letter-spacing: 1.5px; }
-        .meta-value { font-size: 0.95rem; font-weight: 600; color: var(--white); }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 0.7rem;
+            color: var(--gray-dark);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .meta-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+
         .hero-image-wrap {
-            position: relative; border-radius: 20px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
             animation: fadeInUp 1s ease 0.3s both;
         }
-        .hero-image-wrap img { width: 100%; display: block; }
+
+        .hero-image-wrap img {
+            width: 100%;
+            display: block;
+        }
+
         .hero-image-wrap::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(180deg, transparent 60%, rgba(10,10,15,0.6));
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(10, 10, 15, 0.6));
             pointer-events: none;
         }
+
         .status-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 10px 24px; margin-top: 25px;
-            background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3);
-            border-radius: 50px; font-size: 0.9rem; color: #a5b4fc; font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            margin-top: 25px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: #a5b4fc;
+            font-weight: 500;
             animation: fadeInUp 0.8s ease 0.6s both;
         }
+
         .status-badge .dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: #fbbf24; animation: pulse 2s infinite;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fbbf24;
+            animation: pulse 2s infinite;
         }
 
-        .case-section { max-width: 1100px; margin: 0 auto; padding: 80px 40px; }
-        .section-label {
-            display: inline-block; font-size: 0.75rem; text-transform: uppercase;
-            letter-spacing: 2px; color: #818cf8;
-            padding: 6px 16px; border: 1px solid rgba(99,102,241,0.3);
-            border-radius: 50px; margin-bottom: 20px;
+        .case-section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 40px;
         }
-        .case-section h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 16px; }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #818cf8;
+            padding: 6px 16px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            margin-bottom: 20px;
+        }
+
+        .case-section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
         .case-section h2 .hl {
             background: var(--edu-gradient);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .case-section > p { color: var(--gray); font-size: 1.05rem; line-height: 1.8; max-width: 750px; }
+
+        .case-section>p {
+            color: var(--gray);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            max-width: 750px;
+        }
 
         .feature-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 50px;
         }
+
         .feature-card {
-            background: rgba(18,18,26,0.7); border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px; padding: 32px 28px;
+            background: rgba(18, 18, 26, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 32px 28px;
             transition: transform 0.3s, border-color 0.3s;
         }
-        .feature-card:hover { transform: translateY(-5px); border-color: rgba(99,102,241,0.25); }
-        .feature-icon {
-            width: 48px; height: 48px; border-radius: 12px;
-            background: rgba(99,102,241,0.1); display: flex;
-            align-items: center; justify-content: center; margin-bottom: 18px;
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.25);
         }
-        .feature-icon svg { width: 22px; height: 22px; color: #818cf8; }
-        .feature-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
-        .feature-card p { font-size: 0.9rem; color: var(--gray); line-height: 1.7; }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(99, 102, 241, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .feature-icon svg {
+            width: 22px;
+            height: 22px;
+            color: #818cf8;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
 
         /* Roles */
         .roles-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
         }
+
         .role-card {
-            background: rgba(18,18,26,0.8); border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px; padding: 32px 24px;
-            transition: transform 0.3s, border-color 0.3s; position: relative; overflow: hidden;
+            background: rgba(18, 18, 26, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 32px 24px;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
         }
-        .role-card:hover { transform: translateY(-5px); border-color: rgba(99,102,241,0.3); }
+
+        .role-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
         .role-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
         }
-        .role-card:nth-child(1)::before { background: linear-gradient(90deg, #6366f1, #8b5cf6); }
-        .role-card:nth-child(2)::before { background: linear-gradient(90deg, #f59e0b, #f97316); }
-        .role-card:nth-child(3)::before { background: linear-gradient(90deg, #10b981, #06b6d4); }
-        .role-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
-        .role-icon svg { width: 24px; height: 24px; }
-        .role-card:nth-child(1) .role-icon { background: rgba(99,102,241,0.12); }
-        .role-card:nth-child(1) .role-icon svg { color: #818cf8; }
-        .role-card:nth-child(2) .role-icon { background: rgba(245,158,11,0.12); }
-        .role-card:nth-child(2) .role-icon svg { color: #f59e0b; }
-        .role-card:nth-child(3) .role-icon { background: rgba(16,185,129,0.12); }
-        .role-card:nth-child(3) .role-icon svg { color: #10b981; }
-        .role-card h3 { font-size: 1.15rem; margin-bottom: 10px; }
+
+        .role-card:nth-child(1)::before {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+        }
+
+        .role-card:nth-child(2)::before {
+            background: linear-gradient(90deg, #f59e0b, #f97316);
+        }
+
+        .role-card:nth-child(3)::before {
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+        }
+
+        .role-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+
+        .role-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .role-card:nth-child(1) .role-icon {
+            background: rgba(99, 102, 241, 0.12);
+        }
+
+        .role-card:nth-child(1) .role-icon svg {
+            color: #818cf8;
+        }
+
+        .role-card:nth-child(2) .role-icon {
+            background: rgba(245, 158, 11, 0.12);
+        }
+
+        .role-card:nth-child(2) .role-icon svg {
+            color: #f59e0b;
+        }
+
+        .role-card:nth-child(3) .role-icon {
+            background: rgba(16, 185, 129, 0.12);
+        }
+
+        .role-card:nth-child(3) .role-icon svg {
+            color: #10b981;
+        }
+
+        .role-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+
         .role-card ul {
-            list-style: none; display: flex; flex-direction: column; gap: 8px;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
+
         .role-card ul li {
-            font-size: 0.85rem; color: var(--gray); display: flex; align-items: center; gap: 8px;
+            font-size: 0.85rem;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .role-card ul li::before { content: '✓'; color: #818cf8; font-weight: 700; font-size: 0.8rem; }
+
+        .role-card ul li::before {
+            content: '✓';
+            color: #818cf8;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
 
         .highlights-row {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 50px;
         }
+
         .highlight-card {
-            text-align: center; padding: 30px 20px;
-            background: rgba(18,18,26,0.6); border: 1px solid rgba(255,255,255,0.06);
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(18, 18, 26, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
         }
-        .highlight-card .num {
-            font-family: 'Outfit', sans-serif; font-size: 2.2rem; font-weight: 800;
-            background: var(--edu-gradient);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-        .highlight-card .label { font-size: 0.8rem; color: var(--gray); margin-top: 6px; }
 
-        .tech-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+        .highlight-card .num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--edu-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .highlight-card .label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 6px;
+        }
+
+        .tech-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 30px;
+        }
+
         .tech-pill {
-            padding: 10px 22px; background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08); border-radius: 50px;
-            font-size: 0.85rem; color: var(--gray);
+            padding: 10px 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--gray);
             transition: border-color 0.3s, color 0.3s;
         }
-        .tech-pill:hover { border-color: rgba(99,102,241,0.3); color: var(--white); }
+
+        .tech-pill:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            color: var(--white);
+        }
 
         .cta-banner {
-            max-width: 1100px; margin: 40px auto 80px; padding: 60px;
-            background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.06));
-            border: 1px solid rgba(99,102,241,0.2); border-radius: 24px; text-align: center;
+            max-width: 1100px;
+            margin: 40px auto 80px;
+            padding: 60px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.06));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 24px;
+            text-align: center;
         }
-        .cta-banner h2 { font-size: 2rem; margin-bottom: 12px; }
-        .cta-banner p { color: var(--gray); margin-bottom: 28px; font-size: 1.05rem; }
+
+        .cta-banner h2 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .cta-banner p {
+            color: var(--gray);
+            margin-bottom: 28px;
+            font-size: 1.05rem;
+        }
+
         .visit-btn {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 14px 32px; background: var(--edu-gradient);
-            border: none; border-radius: 50px; color: var(--white);
-            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.95rem;
-            text-decoration: none; cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: var(--edu-gradient);
+            border: none;
+            border-radius: 50px;
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        .visit-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(99,102,241,0.3); }
+
+        .visit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.3);
+        }
 
         .mini-footer {
-            text-align: center; padding: 30px 40px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            font-size: 0.8rem; color: var(--gray-dark);
+            text-align: center;
+            padding: 30px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.8rem;
+            color: var(--gray-dark);
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
         }
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         @media (max-width: 900px) {
-            .hero-inner { grid-template-columns: 1fr; }
-            .feature-grid, .roles-grid { grid-template-columns: 1fr 1fr; }
-            .highlights-row { grid-template-columns: 1fr 1fr; }
-            .project-hero { padding: 120px 24px 60px; }
-            .case-section { padding: 60px 24px; }
-            .hero-text h1 { font-size: 2.5rem; }
-            .back-nav { padding: 16px 24px; }
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid,
+            .roles-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .highlights-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .project-hero {
+                padding: 120px 24px 60px;
+            }
+
+            .case-section {
+                padding: 60px 24px;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .back-nav {
+                padding: 16px 24px;
+            }
         }
+
         @media (max-width: 600px) {
-            .feature-grid, .roles-grid { grid-template-columns: 1fr; }
-            .highlights-row { grid-template-columns: 1fr 1fr; }
-            .hero-text h1 { font-size: 2rem; }
-            .cta-banner { padding: 40px 24px; margin: 40px 16px 60px; }
+
+            .feature-grid,
+            .roles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .highlights-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .cta-banner {
+                padding: 40px 24px;
+                margin: 40px 16px 60px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <nav class="back-nav">
         <a href="../index.html#works" class="back-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+            </svg>
             Back to Works
         </a>
         <a href="../index.html" class="logo">
@@ -277,9 +683,15 @@
     <section class="project-hero">
         <div class="hero-inner">
             <div class="hero-text">
-                <div class="project-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 0 3 3 6 3s6-3 6-3v-5"/></svg> EdTech • Management • SaaS</div>
+                <div class="project-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                        <path d="M6 12v5c0 0 3 3 6 3s6-3 6-3v-5" />
+                    </svg> EdTech • Management • SaaS</div>
                 <h1>Edu<span class="highlight">Track</span></h1>
-                <p class="tagline">A full-blown tuition management system built for real-world coaching institutes. Attendance tracking, report card generation, remarks, student & teacher dashboards, fees management, and per-batch subject control — all in one platform.</p>
+                <p class="tagline">A full-blown tuition management system built for real-world coaching institutes.
+                    Attendance tracking, report card generation, remarks, student & teacher dashboards, fees management,
+                    and per-batch subject control — all in one platform.</p>
                 <div class="hero-meta">
                     <div class="meta-item">
                         <span class="meta-label">Client</span>
@@ -308,7 +720,10 @@
     <section class="case-section reveal">
         <span class="section-label">About the Project</span>
         <h2>Tuition Management <span class="hl">Reimagined</span></h2>
-        <p>EduTrack is not just another school app — it's a complete operations system for tuition centers. Teachers track attendance and enter marks, admins manage students, batches, and schedules, while students access personalized dashboards with report cards and performance analytics. Every feature is built for the messy reality of running a real coaching institute.</p>
+        <p>EduTrack is not just another school app — it's a complete operations system for tuition centers. Teachers
+            track attendance and enter marks, admins manage students, batches, and schedules, while students access
+            personalized dashboards with report cards and performance analytics. Every feature is built for the messy
+            reality of running a real coaching institute.</p>
     </section>
 
     <section class="case-section reveal">
@@ -317,34 +732,62 @@
         <p>Every module is designed to eliminate manual tracking and bring structure to tuition operations.</p>
         <div class="feature-grid">
             <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg></div>
                 <h3>Attendance Tracking</h3>
-                <p>Daily attendance for every batch and subject. Teachers mark with a tap, admins see trends and reports instantly.</p>
+                <p>Daily attendance for every batch and subject. Teachers mark with a tap, admins see trends and reports
+                    instantly.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg></div>
                 <h3>Report Card Generator</h3>
-                <p>Auto-generated report cards with marks, grades, and teacher remarks — ready to print or share digitally.</p>
+                <p>Auto-generated report cards with marks, grades, and teacher remarks — ready to print or share
+                    digitally.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div>
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 20V10" />
+                        <path d="M18 20V4" />
+                        <path d="M6 20v-4" />
+                    </svg></div>
                 <h3>Performance Analytics</h3>
-                <p>Visual dashboards showing student progress over time — subject-wise, batch-wise, with trend analysis.</p>
+                <p>Visual dashboards showing student progress over time — subject-wise, batch-wise, with trend analysis.
+                </p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                        <line x1="1" y1="10" x2="23" y2="10" />
+                    </svg></div>
                 <h3>Fees Management</h3>
-                <p>Track fees per student — paid, pending, overdue. Filter by batch, generate receipts, and send reminders.</p>
+                <p>Track fees per student — paid, pending, overdue. Filter by batch, generate receipts, and send
+                    reminders.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg></div>
                 <h3>Remarks System</h3>
-                <p>Teachers leave personalized remarks for each student — behavioral notes, improvement suggestions, and praise.</p>
+                <p>Teachers leave personalized remarks for each student — behavioral notes, improvement suggestions, and
+                    praise.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg></div>
                 <h3>Subject & Batch Control</h3>
-                <p>Each batch has its own subject list. Admins configure subjects per batch, and teachers access only their assigned batches.</p>
+                <p>Each batch has its own subject list. Admins configure subjects per batch, and teachers access only
+                    their assigned batches.</p>
             </div>
         </div>
     </section>
@@ -356,7 +799,9 @@
         <p>Three distinct user roles, each with tailored access and controls.</p>
         <div class="roles-grid">
             <div class="role-card">
-                <div class="role-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <div class="role-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg></div>
                 <h3>Admin Dashboard</h3>
                 <ul>
                     <li>Manage all students & teachers</li>
@@ -367,7 +812,12 @@
                 </ul>
             </div>
             <div class="role-card">
-                <div class="role-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                <div class="role-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg></div>
                 <h3>Teacher Dashboard</h3>
                 <ul>
                     <li>Mark daily attendance</li>
@@ -378,7 +828,10 @@
                 </ul>
             </div>
             <div class="role-card">
-                <div class="role-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 0 3 3 6 3s6-3 6-3v-5"/></svg></div>
+                <div class="role-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                        <path d="M6 12v5c0 0 3 3 6 3s6-3 6-3v-5" />
+                    </svg></div>
                 <h3>Student Dashboard</h3>
                 <ul>
                     <li>View attendance history</li>
@@ -395,10 +848,22 @@
         <span class="section-label">Scale</span>
         <h2>System <span class="hl">Scope</span></h2>
         <div class="highlights-row">
-            <div class="highlight-card"><div class="num">3</div><div class="label">User Roles</div></div>
-            <div class="highlight-card"><div class="num">6+</div><div class="label">Core Modules</div></div>
-            <div class="highlight-card"><div class="num">∞</div><div class="label">Batches & Subjects</div></div>
-            <div class="highlight-card"><div class="num">Full</div><div class="label">SaaS Platform</div></div>
+            <div class="highlight-card">
+                <div class="num">3</div>
+                <div class="label">User Roles</div>
+            </div>
+            <div class="highlight-card">
+                <div class="num">6+</div>
+                <div class="label">Core Modules</div>
+            </div>
+            <div class="highlight-card">
+                <div class="num">∞</div>
+                <div class="label">Batches & Subjects</div>
+            </div>
+            <div class="highlight-card">
+                <div class="num">Full</div>
+                <div class="label">SaaS Platform</div>
+            </div>
         </div>
     </section>
 
@@ -419,7 +884,16 @@
     <div class="cta-banner reveal">
         <h2>Need a Management System Like <span class="hl">This?</span></h2>
         <p>We build EdTech platforms, admin dashboards, and multi-role SaaS systems from scratch.</p>
-        <a href="../index.html#contact" class="visit-btn">Start Your Project</a>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 24px;">
+            <a href="https://wa.me/919922991024" target="_blank" class="visit-btn" style="background: #25D366; border-color: #25D366; color: #fff; margin-top: 0; display: inline-flex; align-items: center; gap: 8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                WhatsApp
+            </a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=webweave.team@gmail.com" target="_blank" class="visit-btn" style="background: #ea4335; border-color: #ea4335; color: #fff; margin-top: 0; display: inline-flex; align-items: center; gap: 8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Gmail
+            </a>
+        </div>
     </div>
 
     <footer class="mini-footer">
@@ -429,9 +903,10 @@
     <script>
         const reveals = document.querySelectorAll('.reveal');
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
         }, { threshold: 0.15 });
         reveals.forEach(el => observer.observe(el));
     </script>
 </body>
+
 </html>
